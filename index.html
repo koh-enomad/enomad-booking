@@ -15,7 +15,19 @@
     padding-bottom: 100px;
   }
 
-  /* 헤더 */
+  .page-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+    background: #f2f2f0;
+    min-height: 100vh;
+    position: relative;
+    box-shadow: 0 0 0 0.5px rgba(0,0,0,0.06), 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  @media (min-width: 480px) {
+    body { background: #e8e7e5; }
+  }
+
   .header {
     background: #fff;
     border-bottom: 1px solid #e8e8e8;
@@ -23,11 +35,12 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    max-width: 480px;
+    margin: 0 auto;
   }
   .header h1 { font-size: 17px; font-weight: 600; }
   .header p { font-size: 12px; color: #999; margin-top: 2px; }
 
-  /* 탭 바 */
   .tab-bar {
     display: flex;
     background: #fff;
@@ -35,249 +48,456 @@
     position: sticky;
     top: 57px;
     z-index: 99;
+    overflow-x: auto;
+    max-width: 480px;
+    margin: 0 auto;
   }
   .tab-bar button {
     flex: 1;
-    padding: 12px 0;
-    font-size: 14px;
+    min-width: 80px;
+    padding: 12px 8px;
+    font-size: 13px;
     font-weight: 500;
     color: #aaa;
     border: none;
     background: none;
     cursor: pointer;
     border-bottom: 2px solid transparent;
+    white-space: nowrap;
     transition: color 0.15s, border-color 0.15s;
   }
-  .tab-bar button.active {
-    color: #1a1a1a;
-    border-bottom-color: #1a1a1a;
-  }
+  .tab-bar button.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
 
-  /* 섹션 */
   .section { display: none; padding: 12px 16px; }
   .section.active { display: block; }
 
-  /* 카드 */
-  .card {
-    background: #fff;
+  /* 가이드 스타일 */
+  .guide-intro {
+    background: #1a1a1a;
+    color: #fff;
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 10px;
-    border: 1px solid #e8e8e8;
   }
-  .card-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-  }
+  .guide-intro .title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .guide-intro .sub { font-size: 12px; color: #aaa; line-height: 1.6; }
 
-  /* 폼 */
-  .field { margin-bottom: 10px; }
-  .field:last-child { margin-bottom: 0; }
-  label {
-    font-size: 11px;
-    color: #999;
-    display: block;
-    margin-bottom: 4px;
-    font-weight: 500;
-  }
-  input, select {
-    width: 100%;
-    padding: 10px 12px;
-    height: 44px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 15px;
-    color: #1a1a1a;
-    background: #fafafa;
-    appearance: none;
-    -webkit-appearance: none;
-  }
-  input:focus, select:focus {
-    outline: none;
-    border-color: #1a1a1a;
-    background: #fff;
-  }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-  /* 버튼 */
-  .btn-primary {
-    width: 100%;
-    height: 48px;
-    background: #1a1a1a;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-top: 4px;
-    letter-spacing: 0.2px;
-  }
-  .btn-primary:active { background: #333; }
-
-  .btn-sm {
-    height: 30px;
-    padding: 0 12px;
-    font-size: 12px;
-    border-radius: 6px;
-    border: 1px solid #e0e0e0;
-    background: #fff;
-    color: #555;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .btn-sm.danger { color: #c00; border-color: #f5c0c0; }
-  .btn-sm:active { background: #f5f5f5; }
-
-  /* 섹션 레이블 */
-  .list-label {
-    font-size: 11px;
-    color: #aaa;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin: 16px 0 8px;
-  }
-
-  /* 항차 카드 */
-  .voyage-card {
+  .guide-card {
     background: #fff;
     border-radius: 12px;
     border: 1px solid #e8e8e8;
     margin-bottom: 10px;
     overflow: hidden;
   }
-  .voyage-head {
-    padding: 14px 16px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
-  }
-  .voyage-name { font-size: 15px; font-weight: 600; }
-  .voyage-meta { font-size: 12px; color: #999; margin-top: 3px; line-height: 1.6; }
-  .badge {
-    display: inline-block;
-    font-size: 11px;
-    background: #f0f0f0;
-    border-radius: 20px;
-    padding: 2px 8px;
-    color: #666;
-    margin-left: 6px;
-    font-weight: 500;
-  }
-
-  /* 항차 내 부킹 목록 */
-  .voyage-bookings { border-top: 1px solid #f0f0f0; }
-  .booking-item {
-    padding: 10px 16px;
-    border-bottom: 1px solid #f5f5f5;
+  .guide-card-header {
+    padding: 13px 16px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 8px;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
   }
+  .guide-card-header:active { background: #f8f8f8; }
+  .guide-step {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .guide-step.done { background: #4caf50; }
+  .guide-step.warn { background: #f59e0b; }
+  .guide-card-title { font-size: 14px; font-weight: 600; flex: 1; }
+  .guide-card-arrow { font-size: 12px; color: #ccc; transition: transform 0.2s; }
+  .guide-card-arrow.open { transform: rotate(180deg); }
+  .guide-card-body {
+    display: none;
+    border-top: 1px solid #f0f0f0;
+    padding: 14px 16px;
+  }
+  .guide-card-body.open { display: block; }
+
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .checklist li:last-child { border-bottom: none; padding-bottom: 0; }
+  .checklist input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    margin-top: 1px;
+    accent-color: #1a1a1a;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .checklist .item-label { flex: 1; }
+  .checklist .item-label.checked { color: #aaa; text-decoration: line-through; }
+  .checklist .item-sub { font-size: 11px; color: #aaa; margin-top: 2px; }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 13px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-key { color: #888; font-size: 12px; }
+  .info-val { font-weight: 500; text-align: right; }
+
+  .timeline {
+    position: relative;
+    padding-left: 20px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: #e0e0e0;
+  }
+  .tl-item {
+    position: relative;
+    padding: 0 0 14px 16px;
+    font-size: 13px;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1a1a1a;
+  }
+  .tl-item.warn::before { background: #f59e0b; }
+  .tl-label { font-weight: 600; margin-bottom: 2px; }
+  .tl-desc { color: #888; font-size: 12px; line-height: 1.5; }
+
+  .highlight-box {
+    background: #fff9ed;
+    border: 1px solid #f5d98b;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: #7a5c00;
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+
+  .cargo-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 4px; }
+  .cargo-table th {
+    background: #f5f5f5;
+    padding: 7px 8px;
+    text-align: center;
+    font-weight: 600;
+    color: #555;
+    border: 1px solid #e8e8e8;
+  }
+  .cargo-table td {
+    padding: 7px 8px;
+    text-align: center;
+    border: 1px solid #e8e8e8;
+    color: #333;
+  }
+  .cargo-table tr:last-child td { font-weight: 700; background: #f9f9f9; }
+
+  /* 기존 카드/폼 스타일 */
+  .card { background: #fff; border-radius: 12px; padding: 16px; margin-bottom: 10px; border: 1px solid #e8e8e8; }
+  .card-title { font-size: 13px; font-weight: 600; color: #555; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .field { margin-bottom: 10px; }
+  .field:last-child { margin-bottom: 0; }
+  label { font-size: 11px; color: #999; display: block; margin-bottom: 4px; font-weight: 500; }
+  input, select { width: 100%; padding: 10px 12px; height: 44px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 15px; color: #1a1a1a; background: #fafafa; appearance: none; -webkit-appearance: none; }
+  input:focus, select:focus { outline: none; border-color: #1a1a1a; background: #fff; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .btn-primary { width: 100%; height: 48px; background: #1a1a1a; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 4px; }
+  .btn-primary:active { background: #333; }
+  .btn-sm { height: 30px; padding: 0 12px; font-size: 12px; border-radius: 6px; border: 1px solid #e0e0e0; background: #fff; color: #555; cursor: pointer; white-space: nowrap; }
+  .btn-sm.danger { color: #c00; border-color: #f5c0c0; }
+  .list-label { font-size: 11px; color: #aaa; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin: 16px 0 8px; }
+  .voyage-card { background: #fff; border-radius: 12px; border: 1px solid #e8e8e8; margin-bottom: 10px; overflow: hidden; }
+  .voyage-head { padding: 14px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .voyage-name { font-size: 15px; font-weight: 600; }
+  .voyage-meta { font-size: 12px; color: #999; margin-top: 3px; line-height: 1.6; }
+  .badge { display: inline-block; font-size: 11px; background: #f0f0f0; border-radius: 20px; padding: 2px 8px; color: #666; margin-left: 6px; font-weight: 500; }
+  .voyage-bookings { border-top: 1px solid #f0f0f0; }
+  .booking-item { padding: 10px 16px; border-bottom: 1px solid #f5f5f5; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   .booking-item:last-child { border-bottom: none; }
   .booking-company { font-size: 14px; font-weight: 500; }
   .booking-detail { font-size: 12px; color: #999; margin-top: 2px; }
-
-  /* 부킹 리스트 카드 */
-  .booking-card {
-    background: #fff;
-    border-radius: 12px;
-    border: 1px solid #e8e8e8;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-  }
-  .booking-card-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
+  .booking-card { background: #fff; border-radius: 12px; border: 1px solid #e8e8e8; padding: 14px 16px; margin-bottom: 8px; }
+  .booking-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
   .booking-card-company { font-size: 15px; font-weight: 600; }
   .booking-card-type { font-size: 12px; color: #888; margin-top: 2px; }
-  .booking-card-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 10px;
-  }
-  .meta-chip {
-    font-size: 12px;
-    color: #555;
-    background: #f5f5f5;
-    border-radius: 6px;
-    padding: 3px 8px;
-  }
-  .booking-card select {
-    height: 38px;
-    font-size: 13px;
-    background: #f8f8f8;
-  }
-
-  /* 기타 */
+  .booking-card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .meta-chip { font-size: 12px; color: #555; background: #f5f5f5; border-radius: 6px; padding: 3px 8px; }
+  .booking-card select { height: 38px; font-size: 13px; background: #f8f8f8; }
   .empty { text-align: center; padding: 32px 0; color: #bbb; font-size: 13px; }
   .loading { text-align: center; padding: 40px 0; color: #bbb; font-size: 13px; }
-
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(10px);
-    background: #1a1a1a;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 13px;
-    opacity: 0;
-    transition: opacity 0.2s, transform 0.2s;
-    pointer-events: none;
-    z-index: 999;
-    white-space: nowrap;
-  }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(10px); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 20px; font-size: 13px; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; z-index: 999; white-space: nowrap; }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* 폼 토글 */
-  .form-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    cursor: pointer;
-  }
-  .form-toggle .btn-toggle {
-    font-size: 12px;
-    color: #888;
-    background: #f0f0f0;
-    border: none;
-    border-radius: 6px;
-    padding: 4px 10px;
-    cursor: pointer;
-  }
+  .form-toggle { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; cursor: pointer; }
+  .form-toggle .btn-toggle { font-size: 12px; color: #888; background: #f0f0f0; border: none; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
   .form-body { display: none; }
   .form-body.open { display: block; }
 </style>
 </head>
 <body>
 
+<div class="page-wrap">
 <div class="header">
   <h1>🚢 해상 포워딩</h1>
   <p>이노마드 포워딩팀</p>
 </div>
 
 <div class="tab-bar">
-  <button class="active" onclick="switchTab('voyages')">항차 관리</button>
+  <button class="active" onclick="switchTab('guide')">부킹 가이드</button>
+  <button onclick="switchTab('voyages')">항차 관리</button>
   <button onclick="switchTab('bookings')">부킹 등록</button>
 </div>
 
-<!-- 항차 관리 -->
-<div id="section-voyages" class="section active">
+<!-- ===================== 부킹 가이드 ===================== -->
+<div id="section-guide" class="section active">
 
+  <div class="guide-intro">
+    <div class="title">골드웨이 해상 부킹 가이드</div>
+    <div class="sub">부킹 요청 전 아래 항목들을 순서대로 확인하세요.<br>각 단계를 탭하면 세부 체크리스트가 열립니다.</div>
+  </div>
+
+  <div class="highlight-box">
+    ⚠️ 부킹 마감은 출항일 기준 통상 <strong>7~10일 전</strong>입니다.<br>
+    화물 정보 미확정 시 선사 스페이스 확보가 어려울 수 있으니 <strong>가능한 빨리</strong> 업체별 정보를 취합하세요.
+  </div>
+
+  <!-- STEP 1: 부킹 일정 -->
+  <div class="guide-card">
+    <div class="guide-card-header" onclick="toggleGuide('g1')">
+      <div class="guide-step">1</div>
+      <div class="guide-card-title">부킹 요청 일정 확인</div>
+      <div class="guide-card-arrow" id="g1-arrow">▼</div>
+    </div>
+    <div class="guide-card-body" id="g1">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-label">D-14 · 업체 화물 정보 취합 시작</div>
+          <div class="tl-desc">출고 가능일, 팔렛 수, 사이즈(W×L×H), 중량 확인 요청</div>
+        </div>
+        <div class="tl-item warn">
+          <div class="tl-label">D-10 · 선사 스페이스 가예약</div>
+          <div class="tl-desc">전체 CBM / G.W 합산 후 선사에 공간 선점 요청</div>
+        </div>
+        <div class="tl-item warn">
+          <div class="tl-label">D-7 · 정식 부킹 확정</div>
+          <div class="tl-desc">업체별 최종 정보 확정, 부킹 넘버 수령</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-label">D-3 · CFS 입고 & 서류 마감</div>
+          <div class="tl-desc">픽업 배차 정보 공유, S/I 제출, 입고 확인</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-label">D-Day · 출항 (ETD)</div>
+          <div class="tl-desc">B/L 발행 요청, 도착 보고</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: 업체별 화물 정보 취합 -->
+  <div class="guide-card">
+    <div class="guide-card-header" onclick="toggleGuide('g2')">
+      <div class="guide-step">2</div>
+      <div class="guide-card-title">업체별 화물 정보 취합</div>
+      <div class="guide-card-arrow" id="g2-arrow">▼</div>
+    </div>
+    <div class="guide-card-body" id="g2">
+      <p style="font-size:12px;color:#888;margin-bottom:10px;">업체마다 아래 정보를 반드시 확보해야 합니다.</p>
+      <ul class="checklist" id="cl-cargo">
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>팔렛 수 확인</div>
+            <div class="item-sub">몇 팔렛인지 정확히 확정 (예: 4PLT, 2PLT)</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>팔렛별 사이즈 (W × L × H, mm 단위)</div>
+            <div class="item-sub">골드웨이 기준: 1100×1100 기본, H는 업체마다 상이</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>CBM 계산 확인</div>
+            <div class="item-sub">W×L×H(m) = CBM. 팔렛 수 × 개별 CBM 합산</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>G.W (총 중량, kg) 확인</div>
+            <div class="item-sub">팔렛 포함 실중량 기준</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>출고 가능일 확정</div>
+            <div class="item-sub">CFS 마감일보다 여유 있는지 반드시 확인</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>화물 종류 확인 (일반/위험물/냉동)</div>
+            <div class="item-sub">위험물은 UN No., IMO Class 별도 확인 필요</div>
+          </div>
+        </li>
+      </ul>
+
+      <p style="font-size:12px;font-weight:600;color:#555;margin:14px 0 8px;">이번 건 화물 현황 (골드웨이)</p>
+      <table class="cargo-table">
+        <thead>
+          <tr>
+            <th>업체</th><th>PLT</th><th>W</th><th>L</th><th>H</th><th>CBM</th><th>G.W</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>CRAVE</td><td>4</td><td>1100</td><td>1100</td><td>-</td><td>7.598</td><td>1,531.93</td></tr>
+          <tr><td>SILICON2</td><td>1</td><td>1100</td><td>1100</td><td>1380</td><td>1.670</td><td>346.00</td></tr>
+          <tr><td>위니코니</td><td>2</td><td>1100</td><td>1100</td><td>1500</td><td>3.630</td><td>600.00</td></tr>
+          <tr><td>BOOSTERS</td><td>1</td><td>1100</td><td>1100</td><td>730</td><td>0.883</td><td>306.00</td></tr>
+          <tr><td colspan="5"><strong>합계</strong></td><td><strong>13.782</strong></td><td><strong>1,877.93</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- STEP 3: 픽업 & 배차 정보 -->
+  <div class="guide-card">
+    <div class="guide-card-header" onclick="toggleGuide('g3')">
+      <div class="guide-step">3</div>
+      <div class="guide-card-title">픽업 & 배차 정보 확인</div>
+      <div class="guide-card-arrow" id="g3-arrow">▼</div>
+    </div>
+    <div class="guide-card-body" id="g3">
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>픽업 주소 확보 (업체별)</div>
+            <div class="item-sub">예: 경기도 광주시 오포읍 오포로 650-23 오포CS물류센터 3F</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>담당자 연락처 확인</div>
+            <div class="item-sub">픽업 당일 연락 가능한 현장 담당자 번호</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>픽업 가능 시간대 확인</div>
+            <div class="item-sub">점심시간(13~14시) 등 제한 시간 있는지 확인</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>합차 픽업 여부 확인</div>
+            <div class="item-sub">여러 업체 동선 묶어서 픽업 가능한지</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>배차 정보 업체에 공유</div>
+            <div class="item-sub">차량 번호, 기사 연락처 픽업 전날 발송</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>도착 보고 요청</div>
+            <div class="item-sub">CFS 입고 완료 후 업체에 입고 확인 공유</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STEP 4: 서류 마감 -->
+  <div class="guide-card">
+    <div class="guide-card-header" onclick="toggleGuide('g4')">
+      <div class="guide-step">4</div>
+      <div class="guide-card-title">서류 마감 체크</div>
+      <div class="guide-card-arrow" id="g4-arrow">▼</div>
+    </div>
+    <div class="guide-card-body" id="g4">
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>S/I (Shipping Instruction) 제출</div>
+            <div class="item-sub">선사 마감 전 제출 필수</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>Packing List 수령</div>
+            <div class="item-sub">업체별 P/L 취합 후 선사 제출용 통합 P/L 작성</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>Commercial Invoice 수령</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>수출 신고 완료 확인</div>
+            <div class="item-sub">수출신고필증 발급 확인</div>
+          </div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <div class="item-label">
+            <div>B/L Draft 확인 후 업체 공유</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== 항차 관리 ===================== -->
+<div id="section-voyages" class="section">
   <div class="card">
     <div class="form-toggle" onclick="toggleForm('voyage-form')">
       <span class="card-title" style="margin:0">+ 새 항차 등록</span>
@@ -295,13 +515,11 @@
       <button class="btn-primary" onclick="addVoyage()">항차 등록</button>
     </div>
   </div>
-
   <div id="voyage-list"><div class="loading">불러오는 중...</div></div>
 </div>
 
-<!-- 부킹 등록 -->
+<!-- ===================== 부킹 등록 ===================== -->
 <div id="section-bookings" class="section">
-
   <div class="card">
     <div class="form-toggle" onclick="toggleForm('booking-form')">
       <span class="card-title" style="margin:0">+ 신규 부킹 등록</span>
@@ -321,7 +539,6 @@
       <button class="btn-primary" onclick="addBooking()">부킹 등록</button>
     </div>
   </div>
-
   <div id="booking-list"><div class="loading">불러오는 중...</div></div>
 </div>
 
@@ -356,6 +573,18 @@ function toggleForm(id) {
   btn.textContent = isOpen ? '닫기' : '열기';
 }
 
+function toggleGuide(id) {
+  const body = document.getElementById(id);
+  const arrow = document.getElementById(id + '-arrow');
+  const isOpen = body.classList.toggle('open');
+  arrow.classList.toggle('open', isOpen);
+}
+
+function toggleCheck(el) {
+  const label = el.parentElement.querySelector('.item-label');
+  label.classList.toggle('checked', el.checked);
+}
+
 async function loadAll() {
   try {
     const data = await api('getAll');
@@ -369,8 +598,9 @@ async function loadAll() {
 }
 
 function switchTab(tab) {
+  const tabs = ['guide', 'voyages', 'bookings'];
   document.querySelectorAll('.tab-bar button').forEach((t, i) =>
-    t.classList.toggle('active', ['voyages','bookings'][i] === tab));
+    t.classList.toggle('active', tabs[i] === tab));
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('section-' + tab).classList.add('active');
   if (tab === 'bookings') updateVoyageSelect();
@@ -412,7 +642,7 @@ async function addBooking() {
   const weight = document.getElementById('b-weight').value;
   const readyDate = document.getElementById('b-ready-date').value;
   const voyageId = document.getElementById('b-voyage').value || null;
-  if (!company || !cargoType || !readyDate) { alert('업체명, 화물 종류, 출고 가능일은 필수입니다.'); return; }
+  if (!company || !cargoType || !readyDate) { alert('업체명, 화물 종류, 출고 가능일은 필수입니다.'); return; }\
   await api('addBooking', { data: { company, cargoType, size, weight, readyDate, voyageId } });
   ['b-company','b-cargo-type','b-size','b-weight','b-ready-date'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('b-voyage').value = '';
@@ -433,17 +663,11 @@ async function deleteBooking(id) {
   loadAll();
 }
 
-function render() {
-  renderVoyages();
-  renderBookings();
-}
+function render() { renderVoyages(); renderBookings(); }
 
 function renderVoyages() {
   const el = document.getElementById('voyage-list');
-  if (!voyages.length) {
-    el.innerHTML = '<div class="empty">등록된 항차가 없습니다.<br>위에서 새 항차를 등록해주세요.</div>';
-    return;
-  }
+  if (!voyages.length) { el.innerHTML = '<div class="empty">등록된 항차가 없습니다.<br>위에서 새 항차를 등록해주세요.</div>'; return; }
   el.innerHTML = voyages.map(v => {
     const vb = bookings.filter(b => b.voyageId == v.id);
     return `
@@ -451,39 +675,29 @@ function renderVoyages() {
       <div class="voyage-head">
         <div>
           <div class="voyage-name">${v.carrier} → ${v.destination} <span class="badge">${vb.length}건</span></div>
-          <div class="voyage-meta">
-            출항 ${v.etd}${v.cutoff ? '<br>CFS 마감 ' + v.cutoff : ''}
-          </div>
+          <div class="voyage-meta">출항 ${v.etd}${v.cutoff ? '<br>CFS 마감 ' + v.cutoff : ''}</div>
         </div>
         <button class="btn-sm danger" onclick="deleteVoyage('${v.id}')">삭제</button>
       </div>
-      ${vb.length ? `
-      <div class="voyage-bookings">
-        ${vb.map(b => `
+      ${vb.length ? `<div class="voyage-bookings">${vb.map(b => `
         <div class="booking-item">
           <div>
             <div class="booking-company">${b.company}</div>
             <div class="booking-detail">${b.cargoType}${b.size ? ' · ' + b.size : ''}${b.weight ? ' · ' + Number(b.weight).toLocaleString() + 'kg' : ''} · 출고 ${b.readyDate}</div>
           </div>
           <button class="btn-sm" onclick="assignBooking('${b.id}', '')">해제</button>
-        </div>`).join('')}
-      </div>` : ''}
+        </div>`).join('')}</div>` : ''}
     </div>`;
   }).join('');
 }
 
 function renderBookings() {
   const el = document.getElementById('booking-list');
-  if (!bookings.length) {
-    el.innerHTML = '<div class="empty">등록된 부킹이 없습니다.</div>';
-    return;
-  }
-
+  if (!bookings.length) { el.innerHTML = '<div class="empty">등록된 부킹이 없습니다.</div>'; return; }
   const unassigned = bookings.filter(b => !b.voyageId);
   const assigned = bookings.filter(b => b.voyageId);
   const voyageOpts = '<option value="">미배정</option>' + voyages.map(v =>
     `<option value="${v.id}">[${v.etd}] ${v.carrier} → ${v.destination}</option>`).join('');
-
   const card = b => {
     const opts = voyageOpts.replace(`value="${b.voyageId}"`, `value="${b.voyageId}" selected`);
     const chips = [b.size, b.weight ? Number(b.weight).toLocaleString()+'kg' : '', '출고 '+b.readyDate].filter(Boolean);
@@ -496,13 +710,10 @@ function renderBookings() {
         </div>
         <button class="btn-sm danger" onclick="deleteBooking('${b.id}')">삭제</button>
       </div>
-      <div class="booking-card-meta">
-        ${chips.map(c => `<span class="meta-chip">${c}</span>`).join('')}
-      </div>
+      <div class="booking-card-meta">${chips.map(c => `<span class="meta-chip">${c}</span>`).join('')}</div>
       <select onchange="assignBooking('${b.id}', this.value)">${opts}</select>
     </div>`;
   };
-
   el.innerHTML =
     `<div class="list-label">미배정 · ${unassigned.length}건</div>` +
     (unassigned.length ? unassigned.map(card).join('') : '<div class="empty" style="padding:16px 0">미배정 부킹 없음</div>') +
@@ -511,5 +722,6 @@ function renderBookings() {
 
 loadAll();
 </script>
+</div>
 </body>
 </html>

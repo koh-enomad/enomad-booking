@@ -1,102 +1,334 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>이노마드 해상 포워딩</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; color: #1a1a1a; background: #f5f5f3; padding: 24px; }
-  h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
-  .sub { font-size: 12px; color: #888; margin-bottom: 20px; }
-  .tabs { display: flex; gap: 6px; margin-bottom: 16px; }
-  .tab { padding: 6px 16px; font-size: 13px; border-radius: 8px; border: 1px solid #ddd; background: #fff; cursor: pointer; color: #666; }
-  .tab.active { border-color: #333; color: #1a1a1a; font-weight: 500; }
-  .section { display: none; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    background: #f2f2f0;
+    padding-bottom: 100px;
+  }
+
+  /* 헤더 */
+  .header {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 16px 16px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header h1 { font-size: 17px; font-weight: 600; }
+  .header p { font-size: 12px; color: #999; margin-top: 2px; }
+
+  /* 탭 바 */
+  .tab-bar {
+    display: flex;
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    position: sticky;
+    top: 57px;
+    z-index: 99;
+  }
+  .tab-bar button {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #aaa;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab-bar button.active {
+    color: #1a1a1a;
+    border-bottom-color: #1a1a1a;
+  }
+
+  /* 섹션 */
+  .section { display: none; padding: 12px 16px; }
   .section.active { display: block; }
-  .card { background: #fff; border: 1px solid #e8e8e8; border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; }
-  .card-title { font-size: 13px; font-weight: 500; margin-bottom: 12px; color: #333; }
-  .form-grid { display: grid; gap: 8px; }
-  .form-grid.col2 { grid-template-columns: 1fr 1fr; }
-  .form-grid.col3 { grid-template-columns: 1fr 1fr 1fr; }
-  .form-grid.col4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-  .form-grid.col5 { grid-template-columns: 1fr 1fr 1fr 1fr auto; }
-  label { font-size: 11px; color: #888; display: block; margin-bottom: 3px; }
-  input, select { width: 100%; padding: 6px 10px; height: 34px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; color: #1a1a1a; background: #fff; }
-  input:focus, select:focus { outline: none; border-color: #999; }
-  .btn { height: 34px; padding: 0 16px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; cursor: pointer; background: #fff; color: #333; white-space: nowrap; }
-  .btn:hover { background: #f5f5f5; }
-  .btn.primary { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
-  .btn.primary:hover { background: #333; }
-  .btn.danger { color: #c00; border-color: #ecc; }
-  .btn.danger:hover { background: #fff5f5; }
-  .btn.sm { height: 28px; padding: 0 10px; font-size: 12px; }
-  .voyage-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; padding: 14px 18px; margin-bottom: 10px; }
-  .voyage-header { display: flex; align-items: center; justify-content: space-between; }
-  .voyage-title { font-size: 14px; font-weight: 500; }
-  .voyage-meta { font-size: 12px; color: #888; margin-top: 2px; }
-  .badge { display: inline-block; font-size: 11px; background: #f0f0f0; border-radius: 6px; padding: 2px 8px; color: #555; margin-left: 8px; }
-  .booking-rows { margin-top: 12px; border-top: 1px solid #f0f0f0; padding-top: 10px; display: flex; flex-direction: column; gap: 6px; }
-  .booking-chip { display: flex; align-items: center; gap: 8px; background: #f8f8f8; border-radius: 6px; padding: 6px 10px; font-size: 13px; flex-wrap: wrap; }
-  .booking-chip .company { font-weight: 500; min-width: 90px; }
-  .booking-chip .meta { color: #888; }
-  .booking-row { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; padding: 10px 18px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .section-label { font-size: 11px; color: #888; font-weight: 500; margin-bottom: 6px; margin-top: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .empty { text-align: center; padding: 24px; color: #aaa; font-size: 13px; }
-  .loading { text-align: center; padding: 40px; color: #aaa; font-size: 13px; }
-  .toast { position: fixed; bottom: 24px; right: 24px; background: #1a1a1a; color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 999; }
-  .toast.show { opacity: 1; }
+
+  /* 카드 */
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #e8e8e8;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  /* 폼 */
+  .field { margin-bottom: 10px; }
+  .field:last-child { margin-bottom: 0; }
+  label {
+    font-size: 11px;
+    color: #999;
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    height: 44px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #1a1a1a;
+    background: #fafafa;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: #1a1a1a;
+    background: #fff;
+  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  /* 버튼 */
+  .btn-primary {
+    width: 100%;
+    height: 48px;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 4px;
+    letter-spacing: 0.2px;
+  }
+  .btn-primary:active { background: #333; }
+
+  .btn-sm {
+    height: 30px;
+    padding: 0 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    color: #555;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn-sm.danger { color: #c00; border-color: #f5c0c0; }
+  .btn-sm:active { background: #f5f5f5; }
+
+  /* 섹션 레이블 */
+  .list-label {
+    font-size: 11px;
+    color: #aaa;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 16px 0 8px;
+  }
+
+  /* 항차 카드 */
+  .voyage-card {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e8e8e8;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .voyage-head {
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .voyage-name { font-size: 15px; font-weight: 600; }
+  .voyage-meta { font-size: 12px; color: #999; margin-top: 3px; line-height: 1.6; }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    background: #f0f0f0;
+    border-radius: 20px;
+    padding: 2px 8px;
+    color: #666;
+    margin-left: 6px;
+    font-weight: 500;
+  }
+
+  /* 항차 내 부킹 목록 */
+  .voyage-bookings { border-top: 1px solid #f0f0f0; }
+  .booking-item {
+    padding: 10px 16px;
+    border-bottom: 1px solid #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .booking-item:last-child { border-bottom: none; }
+  .booking-company { font-size: 14px; font-weight: 500; }
+  .booking-detail { font-size: 12px; color: #999; margin-top: 2px; }
+
+  /* 부킹 리스트 카드 */
+  .booking-card {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e8e8e8;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+  }
+  .booking-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .booking-card-company { font-size: 15px; font-weight: 600; }
+  .booking-card-type { font-size: 12px; color: #888; margin-top: 2px; }
+  .booking-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .meta-chip {
+    font-size: 12px;
+    color: #555;
+    background: #f5f5f5;
+    border-radius: 6px;
+    padding: 3px 8px;
+  }
+  .booking-card select {
+    height: 38px;
+    font-size: 13px;
+    background: #f8f8f8;
+  }
+
+  /* 기타 */
+  .empty { text-align: center; padding: 32px 0; color: #bbb; font-size: 13px; }
+  .loading { text-align: center; padding: 40px 0; color: #bbb; font-size: 13px; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: #1a1a1a;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* 폼 토글 */
+  .form-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .form-toggle .btn-toggle {
+    font-size: 12px;
+    color: #888;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+  }
+  .form-body { display: none; }
+  .form-body.open { display: block; }
 </style>
 </head>
 <body>
 
-<h1>이노마드 해상 포워딩</h1>
-<p class="sub">항차 등록 · 부킹 관리 · 배정</p>
+<div class="header">
+  <h1>🚢 해상 포워딩</h1>
+  <p>이노마드 포워딩팀</p>
+</div>
 
-<div class="tabs">
-  <button class="tab active" onclick="switchTab('voyages')">항차 관리</button>
-  <button class="tab" onclick="switchTab('bookings')">부킹 등록</button>
+<div class="tab-bar">
+  <button class="active" onclick="switchTab('voyages')">항차 관리</button>
+  <button onclick="switchTab('bookings')">부킹 등록</button>
 </div>
 
 <!-- 항차 관리 -->
 <div id="section-voyages" class="section active">
+
   <div class="card">
-    <div class="card-title">새 항차 등록</div>
-    <div class="form-grid col5">
-      <div><label>선사</label><input id="v-carrier" placeholder="예: HMM"></div>
-      <div><label>출항일 (ETD)</label><input id="v-etd" type="date"></div>
-      <div><label>도착지</label><input id="v-destination" placeholder="예: LA, 함부르크"></div>
-      <div><label>CFS 마감일</label><input id="v-cutoff" type="date"></div>
-      <div style="display:flex;align-items:flex-end;"><button class="btn primary" onclick="addVoyage()">+ 등록</button></div>
+    <div class="form-toggle" onclick="toggleForm('voyage-form')">
+      <span class="card-title" style="margin:0">+ 새 항차 등록</span>
+      <button class="btn-toggle" id="voyage-form-btn">열기</button>
+    </div>
+    <div class="form-body" id="voyage-form">
+      <div class="field-row">
+        <div class="field"><label>선사</label><input id="v-carrier" placeholder="HMM, MSC..."></div>
+        <div class="field"><label>도착지</label><input id="v-destination" placeholder="LA, 함부르크..."></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>출항일 (ETD)</label><input id="v-etd" type="date"></div>
+        <div class="field"><label>CFS 마감일</label><input id="v-cutoff" type="date"></div>
+      </div>
+      <button class="btn-primary" onclick="addVoyage()">항차 등록</button>
     </div>
   </div>
+
   <div id="voyage-list"><div class="loading">불러오는 중...</div></div>
 </div>
 
 <!-- 부킹 등록 -->
 <div id="section-bookings" class="section">
+
   <div class="card">
-    <div class="card-title">신규 부킹 등록</div>
-    <div class="form-grid col2" style="margin-bottom:8px;">
-      <div><label>업체명 *</label><input id="b-company" placeholder="업체명"></div>
-      <div><label>화물 종류 *</label><input id="b-cargo-type" placeholder="예: 일반화물, 위험물, 냉동"></div>
+    <div class="form-toggle" onclick="toggleForm('booking-form')">
+      <span class="card-title" style="margin:0">+ 신규 부킹 등록</span>
+      <button class="btn-toggle" id="booking-form-btn">열기</button>
     </div>
-    <div class="form-grid col3" style="margin-bottom:8px;">
-      <div><label>화물 사이즈 (팔렛)</label><input id="b-size" placeholder="예: 10팔렛 / 1.2×1.0×1.5m"></div>
-      <div><label>중량 (kg)</label><input id="b-weight" type="number" placeholder="예: 2500"></div>
-      <div><label>출고 가능일 *</label><input id="b-ready-date" type="date"></div>
-    </div>
-    <div style="display:flex;gap:8px;align-items:flex-end;">
-      <div style="flex:1"><label>배정 항차 (선택)</label><select id="b-voyage"><option value="">-- 미배정 --</option></select></div>
-      <button class="btn primary" onclick="addBooking()">+ 부킹 등록</button>
+    <div class="form-body" id="booking-form">
+      <div class="field"><label>업체명 *</label><input id="b-company" placeholder="업체명 입력"></div>
+      <div class="field"><label>화물 종류 *</label><input id="b-cargo-type" placeholder="일반화물, 위험물, 냉동..."></div>
+      <div class="field-row">
+        <div class="field"><label>사이즈 (팔렛)</label><input id="b-size" placeholder="예: 10팔렛"></div>
+        <div class="field"><label>중량 (kg)</label><input id="b-weight" type="number" placeholder="2500"></div>
+      </div>
+      <div class="field"><label>출고 가능일 *</label><input id="b-ready-date" type="date"></div>
+      <div class="field"><label>배정 항차 (선택)</label>
+        <select id="b-voyage"><option value="">-- 미배정 --</option></select>
+      </div>
+      <button class="btn-primary" onclick="addBooking()">부킹 등록</button>
     </div>
   </div>
+
   <div id="booking-list"><div class="loading">불러오는 중...</div></div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6Ozs5PcZpiPDOHnvcHRLjVdt6Bjmkjiy2HrIs6GoAc1-jOeINdeAEqvemaTgULbJUOA/exec';
+const SCRIPT_URL = 'YOUR_SCRIPT_URL_HERE';
 
 let voyages = [], bookings = [];
 
@@ -113,18 +345,31 @@ function toast(msg) {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2000);
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function toggleForm(id) {
+  const body = document.getElementById(id);
+  const btn = document.getElementById(id + '-btn');
+  const isOpen = body.classList.toggle('open');
+  btn.textContent = isOpen ? '닫기' : '열기';
 }
 
 async function loadAll() {
-  const data = await api('getAll');
-  voyages = data.voyages || [];
-  bookings = data.bookings || [];
-  render();
+  try {
+    const data = await api('getAll');
+    voyages = data.voyages || [];
+    bookings = data.bookings || [];
+    render();
+  } catch(e) {
+    document.getElementById('voyage-list').innerHTML = '<div class="empty">데이터를 불러오지 못했습니다.</div>';
+    document.getElementById('booking-list').innerHTML = '';
+  }
 }
 
 function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', ['voyages','bookings'][i] === tab));
+  document.querySelectorAll('.tab-bar button').forEach((t, i) =>
+    t.classList.toggle('active', ['voyages','bookings'][i] === tab));
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('section-' + tab).classList.add('active');
   if (tab === 'bookings') updateVoyageSelect();
@@ -148,7 +393,7 @@ async function addVoyage() {
   if (!carrier || !etd || !destination) { alert('선사, 출항일, 도착지는 필수입니다.'); return; }
   await api('addVoyage', { data: { carrier, etd, destination, cutoff } });
   ['v-carrier','v-etd','v-destination','v-cutoff'].forEach(id => document.getElementById(id).value = '');
-  toast('항차가 등록됐습니다.');
+  toast('✅ 항차가 등록됐습니다.');
   loadAll();
 }
 
@@ -170,12 +415,13 @@ async function addBooking() {
   await api('addBooking', { data: { company, cargoType, size, weight, readyDate, voyageId } });
   ['b-company','b-cargo-type','b-size','b-weight','b-ready-date'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('b-voyage').value = '';
-  toast('부킹이 등록됐습니다.');
+  toast('✅ 부킹이 등록됐습니다.');
   loadAll();
 }
 
 async function assignBooking(bookingId, voyageId) {
   await api('updateBooking', { id: bookingId, data: { voyageId: voyageId || null } });
+  toast('배정이 변경됐습니다.');
   loadAll();
 }
 
@@ -193,29 +439,32 @@ function render() {
 
 function renderVoyages() {
   const el = document.getElementById('voyage-list');
-  if (!voyages.length) { el.innerHTML = '<div class="empty">등록된 항차가 없습니다.</div>'; return; }
+  if (!voyages.length) {
+    el.innerHTML = '<div class="empty">등록된 항차가 없습니다.<br>위에서 새 항차를 등록해주세요.</div>';
+    return;
+  }
   el.innerHTML = voyages.map(v => {
     const vb = bookings.filter(b => b.voyageId == v.id);
     return `
     <div class="voyage-card">
-      <div class="voyage-header">
+      <div class="voyage-head">
         <div>
-          <span class="voyage-title">${v.carrier} → ${v.destination}</span>
-          <span class="badge">${vb.length}건</span>
-          <div class="voyage-meta">출항 ${v.etd}${v.cutoff ? ' · CFS 마감 ' + v.cutoff : ''}</div>
+          <div class="voyage-name">${v.carrier} → ${v.destination} <span class="badge">${vb.length}건</span></div>
+          <div class="voyage-meta">
+            출항 ${v.etd}${v.cutoff ? '<br>CFS 마감 ' + v.cutoff : ''}
+          </div>
         </div>
-        <button class="btn sm danger" onclick="deleteVoyage('${v.id}')">삭제</button>
+        <button class="btn-sm danger" onclick="deleteVoyage('${v.id}')">삭제</button>
       </div>
       ${vb.length ? `
-      <div class="booking-rows">
+      <div class="voyage-bookings">
         ${vb.map(b => `
-        <div class="booking-chip">
-          <span class="company">${b.company}</span>
-          <span class="meta">${b.cargoType}</span>
-          ${b.size ? `<span class="meta">· ${b.size}</span>` : ''}
-          ${b.weight ? `<span class="meta">· ${Number(b.weight).toLocaleString()}kg</span>` : ''}
-          <span class="meta">출고 ${b.readyDate}</span>
-          <button class="btn sm" style="margin-left:auto" onclick="assignBooking('${b.id}', '')">배정 해제</button>
+        <div class="booking-item">
+          <div>
+            <div class="booking-company">${b.company}</div>
+            <div class="booking-detail">${b.cargoType}${b.size ? ' · ' + b.size : ''}${b.weight ? ' · ' + Number(b.weight).toLocaleString() + 'kg' : ''} · 출고 ${b.readyDate}</div>
+          </div>
+          <button class="btn-sm" onclick="assignBooking('${b.id}', '')">해제</button>
         </div>`).join('')}
       </div>` : ''}
     </div>`;
@@ -224,35 +473,39 @@ function renderVoyages() {
 
 function renderBookings() {
   const el = document.getElementById('booking-list');
-  if (!bookings.length) { el.innerHTML = '<div class="empty">등록된 부킹이 없습니다.</div>'; return; }
+  if (!bookings.length) {
+    el.innerHTML = '<div class="empty">등록된 부킹이 없습니다.</div>';
+    return;
+  }
 
   const unassigned = bookings.filter(b => !b.voyageId);
   const assigned = bookings.filter(b => b.voyageId);
   const voyageOpts = '<option value="">미배정</option>' + voyages.map(v =>
     `<option value="${v.id}">[${v.etd}] ${v.carrier} → ${v.destination}</option>`).join('');
 
-  const row = b => {
+  const card = b => {
     const opts = voyageOpts.replace(`value="${b.voyageId}"`, `value="${b.voyageId}" selected`);
+    const chips = [b.size, b.weight ? Number(b.weight).toLocaleString()+'kg' : '', '출고 '+b.readyDate].filter(Boolean);
     return `
-    <div class="booking-row">
-      <div style="min-width:100px">
-        <div style="font-weight:500">${b.company}</div>
-        <div style="font-size:12px;color:#888">${b.cargoType}</div>
+    <div class="booking-card">
+      <div class="booking-card-top">
+        <div>
+          <div class="booking-card-company">${b.company}</div>
+          <div class="booking-card-type">${b.cargoType}</div>
+        </div>
+        <button class="btn-sm danger" onclick="deleteBooking('${b.id}')">삭제</button>
       </div>
-      <div style="flex:1;display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:12px;color:#888;">
-        ${b.size ? `<span>${b.size}</span>` : ''}
-        ${b.weight ? `<span>${Number(b.weight).toLocaleString()}kg</span>` : ''}
-        <span>출고 ${b.readyDate}</span>
+      <div class="booking-card-meta">
+        ${chips.map(c => `<span class="meta-chip">${c}</span>`).join('')}
       </div>
-      <select style="width:auto;min-width:180px;font-size:12px;height:30px;" onchange="assignBooking('${b.id}', this.value)">${opts}</select>
-      <button class="btn sm danger" onclick="deleteBooking('${b.id}')">삭제</button>
+      <select onchange="assignBooking('${b.id}', this.value)">${opts}</select>
     </div>`;
   };
 
   el.innerHTML =
-    `<div class="section-label">미배정 (${unassigned.length}건)</div>` +
-    (unassigned.length ? unassigned.map(row).join('') : '<div class="empty" style="padding:12px 0">미배정 부킹 없음</div>') +
-    (assigned.length ? `<div class="section-label">배정 완료 (${assigned.length}건)</div>` + assigned.map(row).join('') : '');
+    `<div class="list-label">미배정 · ${unassigned.length}건</div>` +
+    (unassigned.length ? unassigned.map(card).join('') : '<div class="empty" style="padding:16px 0">미배정 부킹 없음</div>') +
+    (assigned.length ? `<div class="list-label">배정 완료 · ${assigned.length}건</div>` + assigned.map(card).join('') : '');
 }
 
 loadAll();

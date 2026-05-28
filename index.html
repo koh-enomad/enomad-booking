@@ -328,16 +328,17 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const SCRIPT_URL = 'YOUR_SCRIPT_URL_HERE';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6Ozs5PcZpiPDOHnvcHRLjVdt6Bjmkjiy2HrIs6GoAc1-jOeINdeAEqvemaTgULbJUOA/exec';
 
 let voyages = [], bookings = [];
 
 function api(action, extra = {}) {
-  return fetch(SCRIPT_URL, {
-    method: 'POST',
-    redirect: 'follow',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify({ action, ...extra })
+  const params = new URLSearchParams({ action });
+  Object.entries(extra).forEach(([k, v]) => {
+    params.set(k, typeof v === 'object' ? JSON.stringify(v) : v);
+  });
+  return fetch(SCRIPT_URL + '?' + params.toString(), {
+    redirect: 'follow'
   }).then(r => r.json());
 }
 
